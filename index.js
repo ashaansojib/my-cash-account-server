@@ -11,9 +11,9 @@ app.use(express.json());
 app.get('/', (req, res) =>{
     res.send('The account server is running')
 });
-
+// my-account-01 wcWse0hSrfYu3BUS
 // console.log(process.env.Mongodb_USERNAME)
-const uri = `mongodb+srv://${process.env.Mongodb_USERNAME}:${process.env.Mongodb_PASSWORD}@cluster0.ugrpd0k.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://my-account-01:wcWse0hSrfYu3BUS@cluster0.ugrpd0k.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -34,6 +34,12 @@ async function run() {
         const cash = await mycashCollection.find().toArray();
         res.send(cash)
     });
+    app.post('/mycash', async(req, res) =>{
+      const cash = req.body;
+      console.log(cash)
+      const result = await mycashCollection.insertOne(cash)
+      res.send(result)
+    })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
