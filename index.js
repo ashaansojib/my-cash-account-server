@@ -35,9 +35,12 @@ async function run() {
         res.send(cash)
     });
     app.post('/mycash', async(req, res) =>{
-      const cash = req.body;
-      console.log(cash)
-      const result = await mycashCollection.insertOne(cash)
+      const query = req.body;
+      const total = query.cash;
+      // console.log(total)
+      const preCash = await mycashCollection.findOne({cash: cash})
+      console.log(preCash)
+      const result = await mycashCollection.insertOne(query)
       res.send(result)
     })
     // Send a ping to confirm a successful connection
